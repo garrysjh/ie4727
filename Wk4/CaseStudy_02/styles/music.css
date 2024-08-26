@@ -1,0 +1,32 @@
+.music {
+    border: 1px solid black;
+    height: 60%;
+    width: 100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.music-item {
+    border: 1px solid red;
+    margin: 0 20% 0;
+}
+
+.music-item-title{
+    font-weight: 750;
+    background-color: lightsalmon;
+}
+
+.music-item-body {
+    padding: 1vh 2vw 1vh;
+}
+.music-item-content {
+    float: left;
+    padding: 0 2vw 0;
+}
+
+img {
+    height: 50px;
+    width: auto;
+    float:left;
+}

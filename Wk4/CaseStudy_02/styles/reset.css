@@ -45,6 +45,7 @@ box-shadow: 10px 9px 5px -6px rgba(0,0,0,0.75);
 }
 
 .main-body {
+    font-family: system-ui;
     display:inline-block;
     width: 90%;
     float:right;
