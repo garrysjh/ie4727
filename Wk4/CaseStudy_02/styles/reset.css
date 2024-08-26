@@ -1,0 +1,75 @@
+h1 {
+    font-family: "Juice ITC";
+    font-size: 60px;
+    font-weight: 800;
+    color:brown;
+    text-shadow: 2px 2px 5px black;
+}
+
+h2 {
+    font-family: system-ui;
+    font-weight: 750;
+}
+
+p, a {
+    font-family: sans-serif;
+    color: rgb(126, 118, 118);
+}
+
+header{
+    display:flex;
+    align-items:center;
+    text-align: center;
+    justify-content: center;
+    background-color:rgb(170, 113, 79);
+    height: 10vh;
+}
+
+nav {
+    display:inline-block;
+    width: 10%;
+    float:left;
+    background-color: rgb(216, 161, 124);
+    height:40vh;
+    padding: 5vh 0 10vh;
+    text-align:center;
+}
+
+body {
+    padding:0;
+    margin: 2% 2% 4%;
+    background-color: beige;
+    -webkit-box-shadow: 10px 9px 5px -6px rgba(0,0,0,0.75);
+-moz-box-shadow: 10px 9px 5px -6px rgba(0,0,0,0.75);
+box-shadow: 10px 9px 5px -6px rgba(0,0,0,0.75);
+}
+
+.main-body {
+    display:inline-block;
+    width: 90%;
+    float:right;
+    padding: 5vh 0 10vh;
+    height: 40vh;
+    background-color: yellow;
+}
+
+.main-title {
+    margin-left: 1vw;
+}
+
+footer {
+    display: inline-block;
+    width: 100%;
+    background-color: burlywood;
+    align-items: center;
+    text-align: center;
+}
+
+
+
+
+
+a {
+    text-decoration: none;
+}
+
