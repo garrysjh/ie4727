@@ -1,20 +1,16 @@
 .music {
-    border: 1px solid black;
-    height: 60%;
     width: 100%;
     display:flex;
     flex-direction:column;
-    justify-content:center;
 }
 
 .music-item {
-    border: 1px solid red;
     margin: 0 20% 0;
 }
 
 .music-item-title{
     font-weight: 750;
-    background-color: lightsalmon;
+    background-color: #D0B38D;
 }
 
 .music-item-body {
@@ -26,7 +22,7 @@
 }
 
 img {
-    height: 50px;
+    height: 100px;
     width: auto;
     float:left;
 }
