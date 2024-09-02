@@ -1,0 +1,22 @@
+.registrationForm{
+    display:flex;
+    justify-content:center;
+}
+
+form {
+    text-align: left;
+    max-width: 400px;
+    margin-left: 0px;
+}
+
+h3 {
+    margin-bottom: 1vh;
+    font-family:Verdana;
+}
+
+input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: auto;
+    box-sizing: border-box;
+}
