@@ -1,5 +1,5 @@
 body {
-  background-color: #ffffff;
+  background-color: #f1d7bd;
 }
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -55,6 +55,7 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #bb2a06;
 }
