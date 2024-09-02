@@ -52,12 +52,12 @@ export function Form() {
                 </label>
                 <label>
                     <h3>
-                        <input type="submit" value="Submit" />
+                        <input type="submit" value="SUBMIT" />
                     </h3>
                 </label>
                 {registered ? (
                     <div>Registration Successful</div>
-                ): <></>}
+                ) : <></>}
             </form>
         </div>
     )
