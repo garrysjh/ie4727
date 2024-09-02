@@ -13,3 +13,8 @@ td {
 .menu-item {
     text-align:center;
 }
+
+.menu {
+    display:flex;
+    justify-content:center;
+}
