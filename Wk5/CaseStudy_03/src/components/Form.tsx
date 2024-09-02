@@ -2,22 +2,8 @@ import { useState } from "react"
 import { ChangeEvent, FormEvent } from "react"
 import '../styles/form.css'
 
-function Registered() {
-    const [registered, setRegistered] = useState({
-        registered: false
-    })
-    if (registered) {
-        return (
-            <>
-                Registration Successful
-            </>)
-    }
-    else {
-        return <></>
-    }
-}
-
 export function Form() {
+    const [registered, setRegistered] = useState(false);
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -69,7 +55,9 @@ export function Form() {
                         <input type="submit" value="Submit" />
                     </h3>
                 </label>
-                <Registered />
+                {registered ? (
+                    <div>Registration Successful</div>
+                ): <></>}
             </form>
         </div>
     )
