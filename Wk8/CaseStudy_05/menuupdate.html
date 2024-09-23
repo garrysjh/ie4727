@@ -47,37 +47,32 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><button>Update</button></td>
+                    <td><button onClick="updateCafe()">Update</button></td>
                     <td class="menu-item"><strong>Cafe au Lait</strong></td>
                     <td>House blended coffee infused into a smooth, steamed milk. <br>
                     </td>
                     <td>
-                        <input name="cafechoice" type="radio" id="cafechoice" value="single">Single: $<p
-                            id="cafeSinglePrice">0.00</p></input><br />
+                        <input name="cafechoice" type="radio" id="cafechoice" value="single" checked="checked">Single: $
+                        <p id="cafeSinglePrice">0.00</p></input><br />
                         <input name="cafechoice" type="radio" id="cafechoice" value="double">Double: $<p
-                        id="cafeDoublePrice">0.00</p></input>
+                            id="cafeDoublePrice">0.00</p></input>
                     </td>
                 </tr>
                 <tr>
-                    <td><button>Update</button></td>
+                    <td><button onClick="updateCapp()">Update</button></td>
                     <td class="menu-item"><strong>Iced Cappucino</strong></td>
                     <td>Sweetened espresso blended with icy-cold milk and served in a chilled glass. <br>
                     </td>
                     <td>
-                        <input name="cappchoice" type="radio" value="4.75" checked="checked"
-                            onchange="calculateCappSubtotal(); calculateTotal();">Single: $<p
+                        <input name="cappchoice" type="radio" value="single" checked="checked">Single: $<p
                             id="cappSinglePrice">0.00</p></input><br />
-                        <input name="cappchoice" type="radio" value="5.75"
-                            onchange="calculateCappSubtotal(); calculateTotal();">Double: $<p
-                            id="cappDoublePrice">0.00</p></input>
+                        <input name="cappchoice" type="radio" value="double">Double: $<p id="cappDoublePrice">0.00</p>
+                        </input>
                     </td>
                 </tr>
             </table>
             <br>
         </div>
-        <h3 id="total" style="margin-left: 10vw;">
-            Total: $0.00
-        </h3>
     </div>
     <footer>
         <small><i>Copyright &copy; 2014 JavaJam Coffeee House</i></small>
@@ -119,6 +114,88 @@
             }
         }
 
+        async function updateCafe() {
+            newPrice = prompt("Set new price for your chosen Cafe Latte: ")
+            chosenChoice = document.querySelector('input[name="cafechoice"]:checked').value
+            if (chosenChoice === "single") {
+                chosenId = 2
+                chosenElementId = "cafeSinglePrice"
+            } else {
+                chosenId = 3
+                chosenElementId = "cafeDoublePrice"
+            }
+            try {
+                const updateResult = await $.ajax({
+                    url: "menuUpdate.php",    //the page containing php script
+                    type: "POST",    //request type,
+                    dataType: 'json',
+                    data: { id: chosenId, price: newPrice }
+                });
+
+                console.log(updateResult);
+                if (updateResult.status === 'success') {
+                    alert(updateResult.message);
+                } else {
+                    alert(updateResult.message);
+                }
+
+                const getResult = await $.ajax({
+                    url: "menuGetPrice.php",
+                    type: "post",
+                    dataType: "json",
+                    data: { id: chosenId }
+                });
+                if (getResult.status === 'success') {
+                    document.getElementById(chosenElementId).innerHTML = getResult.price;
+                }
+            } catch (error) {
+                console.error("Error: " + error.status + " " + error.statusText);
+                console.error("Response: " + error.responseText);
+                alert("Failed to update price.");
+            }
+        }
+
+        async function updateCapp() {
+            newPrice = prompt("Set new price for your chosen Cappucino: ")
+            chosenChoice = document.querySelector('input[name="cappchoice"]:checked').value
+            if (chosenChoice === "single") {
+                chosenId = 4
+                chosenElementId = "cappSinglePrice"
+            } else {
+                chosenId = 5
+                chosenElementId = "cappDoublePrice"
+            }
+            try {
+                const updateResult = await $.ajax({
+                    url: "menuUpdate.php",    //the page containing php script
+                    type: "POST",    //request type,
+                    dataType: 'json',
+                    data: { id: chosenId, price: newPrice }
+                });
+
+                console.log(updateResult);
+                if (updateResult.status === 'success') {
+                    alert(updateResult.message);
+                } else {
+                    alert(updateResult.message);
+                }
+
+                const getResult = await $.ajax({
+                    url: "menuGetPrice.php",
+                    type: "post",
+                    dataType: "json",
+                    data: { id: chosenId }
+                });
+                if (getResult.status === 'success') {
+                    document.getElementById(chosenElementId).innerHTML = getResult.price;
+                }
+            } catch (error) {
+                console.error("Error: " + error.status + " " + error.statusText);
+                console.error("Response: " + error.responseText);
+                alert("Failed to update price.");
+            }
+        }
+
         async function getPrices() {
             try {
                 const onOpenResult = await $.ajax({
@@ -138,7 +215,7 @@
                 }
             } catch (error) {
             }
-  
+
         }
 
     </script>
