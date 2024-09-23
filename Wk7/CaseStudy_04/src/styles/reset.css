@@ -32,7 +32,8 @@ nav {
     width: 10%;
     float:left;
     background-color: #E2D1B2;
-    height:55vh;
+    --navbar-height: 70vh;
+    height: var(--navbar-height);
     padding: 5vh 0 10vh;
     text-align:center;
 }
@@ -54,7 +55,8 @@ box-shadow: 10px 9px 5px -6px rgba(0,0,0,0.75);
     padding: 5vh 0 10vh;
     background-color: #F5F4DD;
     color:#340405;
-    height:55vh;
+    --main-body-height: 60vh;
+    height:var(--main-body-height);
 }
 
 .main-title {

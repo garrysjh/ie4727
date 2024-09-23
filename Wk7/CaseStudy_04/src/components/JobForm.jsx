@@ -10,6 +10,7 @@ export default function JobForm() {
     })
     const changeHandler = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
+        console.log(formData)
     }
 
     const handleSubmit = (e) => {
@@ -23,21 +24,22 @@ export default function JobForm() {
             alert("Please enter a valid email address!");
         }
         // Validate that password has to be at least 8 characters, and confirm password is same as password
-        if (formData['startDate'] == "") {
+        else if (formData['startDate'] == "") {
             alert("Start date cannot be empty!")
         }
-        else if (formData['startDate']) {
+        else {
             const today = new Date();
             const selectedDate = new Date(formData['startDate']);
             if (selectedDate <= today) {
             alert("Start date cannot be today or in the past.");
         }
         }
-        else if (!formData['experience']) {
+        if (!formData['experience']) {
             alert("Experience cannot be empty.");
-        }  
-        setRegistered(true);
-        
+        }
+        else {
+            setRegistered(true);
+        }
         }
     
     return (
@@ -50,7 +52,7 @@ export default function JobForm() {
                 </tr>
                 <tr>
                     <td><label htmlFor="email">*E-mail:</label></td>
-                    <td><input type="text" name="email" size="25" required placeholder="Enter your Email-ID here" onChange={(e) => changeHandler(e)}/><br/>                                </td>
+                    <td><input type="text" name="email"  required size="25" placeholder="Enter your Email-ID here" onChange={(e) => changeHandler(e)}/><br/>                                </td>
                 </tr>
                 <tr>
                     <td><label htmlFor="startDate">Start Date:</label></td>
@@ -58,7 +60,7 @@ export default function JobForm() {
                 </tr>
                 <tr>
                     <td><label htmlFor="experience">*Experience:</label></td>
-                    <td><textarea type="textarea" name="experience" rows="4" cols="40" required placeholder="Enter your past experience here" onChange={(e) => changeHandler(e)}></textarea><br/></td>
+                    <td><textarea type="textarea" name="experience" rows="4" cols="40" placeholder="Enter your past experience here" onChange={(e) => changeHandler(e)}></textarea><br/></td>
                 </tr>
             </table>
             <input type="reset" value="Clear"/><br/><br/>
