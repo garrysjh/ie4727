@@ -2,7 +2,6 @@ table {
     font-family:system-ui;
     font-size: 1.17em;
     margin: 0 5vw 0;
-    width: 80vw;
   }
 
 tr:nth-child(odd){background-color: #D0B38D;}
@@ -18,8 +17,4 @@ td {
 .menu {
     display:flex;
     justify-content:center;
-}
-
-.output {
-    margin-left: 10vw;
 }

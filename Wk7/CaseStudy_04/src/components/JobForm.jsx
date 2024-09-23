@@ -1,4 +1,5 @@
 import { useState } from "react"
+import "../styles/jobs.css"
 
 export default function JobForm() {
     const [registered, setRegistered] = useState(false);

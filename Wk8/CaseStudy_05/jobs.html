@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>JavaJam Coffee House</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/jobs.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h1>JavaJam Coffee House</h1>
+        </div>
+    </header>
+    <nav>
+        <div class="navbar-item">
+            <a href="index.html">Home</a> &nbsp;
+        </div>
+        <div class="navbar-item">
+            <a href="menu.html">Menu</a>&nbsp;
+        </div>
+        <div class="navbar-item">
+            <a href="music.html">Music</a>&nbsp;
+        </div>
+        <div class="navbar-item">
+            <a href="jobs.html">Jobs</a>&nbsp;
+        </div>
+    </nav>
+
+
+    <div class="main-body">
+        <div class="main-title">
+            <h2> Jobs at JavaJam</h2>
+            <p>Want to work at JavaJam? Fill out the form below to start your application. Required fields are marked with an asterisk *</p>
+        </div>
+        <form id="form">
+            <table>
+                <tr>
+                    <td ><label for="name">*Name:</label></td>
+                    <td><input id="nameinput"type="text" name="name" size="25" required placeholder="Enter your name here"><br></td>
+                </tr>
+                <tr>
+                    <td><label for="email">*E-mail:</label></td>
+                    <td><input id="emailinput" type="text" name="email" size="25" required placeholder="Enter your Email-ID here"><br>                                </td>
+                </tr>
+                <tr>
+                    <td><label for="startDate">Start Date:</label></td>
+                    <td><input id="startdateinput" type="date" name="startDate"><br></td>
+                </tr>
+                <tr>
+                    <td><label for="experience">*Experience:</label></td>
+                    <td><textarea id="experienceinput" type="textarea" name="experience" rows="4" cols="40" required placeholder="Enter your past experience here"></textarea><br></td>
+                </tr>
+            </table>
+            <input type="reset" value="Clear"><br><br>
+            <input type="submit" value="Apply Now"><br><br>
+         </form>
+        <br>
+        <br>
+    </div>
+    <footer>
+        <small><i>Copyright &copy; 2014 JavaJam Coffeee House</i></small>
+        <br>
+        <small><a href="mailto:garry@shi.com">garry@shi.com</a></small>
+    </footer>
+</body>
+<script>
+    var form = document.getElementById('form')
+    var submitValidation = function(event) {
+        event.preventDefault();
+        let name = document.getElementById('nameinput').value
+        let email = document.getElementById('emailinput').value
+        let startdate = document.getElementById('startdateinput').value
+        let experience = document.getElementById('emailinput').value
+        const today = new Date();
+        const selectedDate = new Date(startdate)
+        if (!/^[a-zA-Z\s]+$/.test(name)) {
+            alert("Your name can only contain alphabet characters and spaces");
+        }
+        else if (!email.includes('@') || !/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+){1,3}$/.test(email.split('@')[1])) {
+            alert("Please enter a valid email address!");
+        }
+        else if (startdate == "") {
+            alert("Start date cannot be empty!")
+        }
+        else if  (selectedDate <= today){
+            alert("Start date cannot be today or in the past.");
+        }
+        else if (experience == "") {
+            alert("Experience cannot be empty.");
+        }
+        else {
+            alert("Successfully applied")
+        }
+    }
+    form.addEventListener("submit", submitValidation, true);
+</script>
+
+</html>

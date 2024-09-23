@@ -133,7 +133,7 @@ export default function MenuTable() {
                 </tbody>
             </table>
 
-            <p>Total Price: ${calculateTotalPrice().toFixed(2)}</p>
+            <p className="output">Total Price: ${calculateTotalPrice().toFixed(2)}</p>
         </div>
     );
 }

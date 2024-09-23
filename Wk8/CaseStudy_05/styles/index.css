@@ -1,0 +1,21 @@
+img {
+    width:30%;
+    float:left;
+    margin-left: 5vw;
+}
+
+ul {
+    /* https://parspng.com/en/images/coffee-cup-logo-png/ */
+    list-style-image: url("../assets/coffee_cup_resized.png");
+}
+
+p {
+    display: block;
+    float:left;
+}
+
+.main-body-secondary {
+    display:block;
+    float:left;
+    margin: 0vh 3vw 1vh;
+}
