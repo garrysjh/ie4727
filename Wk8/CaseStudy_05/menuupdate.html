@@ -118,10 +118,12 @@
 
         function getPrices() {
             try {
-                onOpenResult = $.ajax({
+                const onOpenResult = $.ajax({
                     url: "menuGetPrice.php",
                     type: "get",
+                    dataType: "json"
                 });
+                console.log(onOpenResult);
                 if (onOpenResult.status === 'success') {
                     console.log("why this guy running" + result.prices)
                     document.getElementById("javaPrice").innerHTML = getResult.price;
