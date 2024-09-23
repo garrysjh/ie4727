@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles/reset.css">
     <link rel="stylesheet" href="styles/menu.css">
 </head>
+
 <body onload="getPrices();">
     <header>
         <div class="logo">
@@ -35,42 +36,45 @@
             <h2>Coffee at JavaJam</h2>
         </div>
         <div class="menu">
-        <table>
-            <tr>
-                <td><button onclick="updateJava()">Update</button></td>
-                <td class="menu-item"><strong>Just Java</strong></td>
-                <td>Regular House blend, decaffeinated coffee, or flavor of the day. <br>
-                </td>
-                <td>
-                    <input name="javachoice" type="radio" value="2" checked="checked">Endless: $2.00</input>
-                </td>
-            </tr>
-            <tr>
-                <td><button>Update</button></td>
-                <td class="menu-item"><strong>Cafe au Lait</strong></td>
-                <td>House blended coffee infused into a smooth, steamed milk. <br>
-                </td>
-                <td>
-                    <input name="cafechoice" type="radio" checked="checked" value="2" onchange="calculateCafeSubtotal(); calculateTotal();">Single: $2.00</input><br/>
-                    <input name="cafechoice" type="radio" value="3" onchange="calculateCafeSubtotal(); calculateTotal();">Double: $3.00</input>
-                </td>
-            </tr>
-            <tr>
-                <td><button>Update</button></td>
-                <td class="menu-item"><strong>Iced Cappucino</strong></td>
-                <td>Sweetened espresso blended with icy-cold milk and served in a chilled glass. <br>
-                </td>
-                <td>
-                    <input name="cappchoice" type="radio" value="4.75" checked="checked" onchange="calculateCappSubtotal(); calculateTotal();">Single: $4.75</input><br/>
-                    <input name="cappchoice" type="radio" value="5.75" onchange="calculateCappSubtotal(); calculateTotal();">Double: $5.75</input>
-                </td>
-            </tr>
-        </table>
-        <br>
-    </div>
-    <h3 id="total" style="margin-left: 10vw;">
-        Total: $0.00
-    </h3>
+            <table>
+                <tr>
+                    <td><button onclick="updateJava()">Update</button></td>
+                    <td class="menu-item"><strong>Just Java</strong></td>
+                    <td>Regular House blend, decaffeinated coffee, or flavor of the day. <br>
+                    </td>
+                    <td>
+                        Endless: $<p id="javaPrice">2.00</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td><button>Update</button></td>
+                    <td class="menu-item"><strong>Cafe au Lait</strong></td>
+                    <td>House blended coffee infused into a smooth, steamed milk. <br>
+                    </td>
+                    <td>
+                        <input name="cafechoice" type="radio" id="cafechoice" value="single">Single: $<p
+                            id="cafeSinglePrice">2.00</p></input><br />
+                        <input name="cafechoice" type="radio" id="cafechoice" value="double">Double: $3.00</input>
+                    </td>
+                </tr>
+                <tr>
+                    <td><button>Update</button></td>
+                    <td class="menu-item"><strong>Iced Cappucino</strong></td>
+                    <td>Sweetened espresso blended with icy-cold milk and served in a chilled glass. <br>
+                    </td>
+                    <td>
+                        <input name="cappchoice" type="radio" value="4.75" checked="checked"
+                            onchange="calculateCappSubtotal(); calculateTotal();">Single: $4.75</input><br />
+                        <input name="cappchoice" type="radio" value="5.75"
+                            onchange="calculateCappSubtotal(); calculateTotal();">Double: $5.75</input>
+                    </td>
+                </tr>
+            </table>
+            <br>
+        </div>
+        <h3 id="total" style="margin-left: 10vw;">
+            Total: $0.00
+        </h3>
     </div>
     <footer>
         <small><i>Copyright &copy; 2014 JavaJam Coffeee House</i></small>
@@ -79,21 +83,53 @@
     </footer>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script>
-        function updateJava(){
+        async function updateJava() {
             newPrice = prompt("Set new price for Just Java: ")
-            $.ajax({
-            url:"menuupdate.php",    //the page containing php script
-            type: "post",    //request type,
-            dataType: 'json',
-            data: {id: 1 , price: newPrice},
-            success:function(result){
-                console.log(result.abc);
+            try {
+                const updateResult = await $.ajax({
+                    url: "menuUpdate.php",    //the page containing php script
+                    type: "POST",    //request type,
+                    dataType: 'json',
+                    data: { id: 1, price: newPrice }
+                });
+
+                console.log(updateResult);
+                if (updateResult.status === 'success') {
+                    alert(updateResult.message);
+                } else {
+                    alert(updateResult.message);
+                }
+
+                const getResult = await $.ajax({
+                    url: "menuGetPrice.php",
+                    type: "post",
+                    dataType: "json",
+                    data: { id: 1 }
+                });
+                if (getResult.status === 'success') {
+                    document.getElementById("javaPrice").innerHTML = getResult.price;
+                }
+            } catch (error) {
+                console.error("Error: " + error.status + " " + error.statusText);
+                console.error("Response: " + error.responseText);
+                alert("Failed to update price.");
             }
-        });
         }
 
-        function getPrices(){
-            
+        function getPrices() {
+            try {
+                onOpenResult = $.ajax({
+                    url: "menuGetPrice.php",
+                    type: "get",
+                });
+                if (onOpenResult.status === 'success') {
+                    console.log("why this guy running" + result.prices)
+                    document.getElementById("javaPrice").innerHTML = getResult.price;
+                }
+            } catch (error) {
+                console.error("Error: " + error.status + " " + error.statusText);
+                console.error("Response: " + error.responseText);;
+            }
         }
 
     </script>
