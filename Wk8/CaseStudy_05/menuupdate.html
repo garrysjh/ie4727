@@ -43,7 +43,7 @@
                     <td>Regular House blend, decaffeinated coffee, or flavor of the day. <br>
                     </td>
                     <td>
-                        Endless: $<p id="javaPrice">2.00</p>
+                        Endless: $<p id="javaPrice">0.00</p>
                     </td>
                 </tr>
                 <tr>
@@ -53,8 +53,9 @@
                     </td>
                     <td>
                         <input name="cafechoice" type="radio" id="cafechoice" value="single">Single: $<p
-                            id="cafeSinglePrice">2.00</p></input><br />
-                        <input name="cafechoice" type="radio" id="cafechoice" value="double">Double: $3.00</input>
+                            id="cafeSinglePrice">0.00</p></input><br />
+                        <input name="cafechoice" type="radio" id="cafechoice" value="double">Double: $<p
+                        id="cafeDoublePrice">0.00</p></input>
                     </td>
                 </tr>
                 <tr>
@@ -64,9 +65,11 @@
                     </td>
                     <td>
                         <input name="cappchoice" type="radio" value="4.75" checked="checked"
-                            onchange="calculateCappSubtotal(); calculateTotal();">Single: $4.75</input><br />
+                            onchange="calculateCappSubtotal(); calculateTotal();">Single: $<p
+                            id="cappSinglePrice">0.00</p></input><br />
                         <input name="cappchoice" type="radio" value="5.75"
-                            onchange="calculateCappSubtotal(); calculateTotal();">Double: $5.75</input>
+                            onchange="calculateCappSubtotal(); calculateTotal();">Double: $<p
+                            id="cappDoublePrice">0.00</p></input>
                     </td>
                 </tr>
             </table>
@@ -116,22 +119,26 @@
             }
         }
 
-        function getPrices() {
+        async function getPrices() {
             try {
-                const onOpenResult = $.ajax({
+                const onOpenResult = await $.ajax({
                     url: "menuGetPrice.php",
-                    type: "get",
+                    type: "GET",
                     dataType: "json"
                 });
                 console.log(onOpenResult);
                 if (onOpenResult.status === 'success') {
-                    console.log("why this guy running" + result.prices)
-                    document.getElementById("javaPrice").innerHTML = getResult.price;
+                    console.log("why this guy running")
+                    console.log(onOpenResult.prices);
+                    document.getElementById("javaPrice").innerHTML = onOpenResult.prices[0].price;
+                    document.getElementById("cafeSinglePrice").innerHTML = onOpenResult.prices[1].price;
+                    document.getElementById("cafeDoublePrice").innerHTML = onOpenResult.prices[2].price;
+                    document.getElementById("cappSinglePrice").innerHTML = onOpenResult.prices[3].price;
+                    document.getElementById("cappDoublePrice").innerHTML = onOpenResult.prices[4].price;
                 }
             } catch (error) {
-                console.error("Error: " + error.status + " " + error.statusText);
-                console.error("Response: " + error.responseText);;
             }
+  
         }
 
     </script>
