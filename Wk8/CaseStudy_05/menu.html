@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles/menu.css">
 </head>
 
-<body>
+<body onload="getPrices();">
     <header>
         <div class="logo">
             <h1>JavaJam Coffee House</h1>
@@ -42,10 +42,10 @@
                 <td>Regular House blend, decaffeinated coffee, or flavor of the day. <br>
                 </td>
                 <td>
-                    <input name="javachoice" type="radio" value="2" checked="checked">Endless: $2.00</input>
+                    <input name="javachoice" type="radio" value="2" checked="checked">Endless: $<p id="javaPrice">0.00</p></input>
                 </td>
                 <td>
-                    <input type="number" placeholder="Quantity" id="javaQuantity" onchange="calculateJavaSubtotal(); calculateTotal();"></input>
+                    <input type="number" min="0" placeholder="Quantity" id="javaQuantity" onchange="calculateJavaSubtotal(); calculateTotal();"></input>
                 </td>
                 <td>
                     <p id="javaSubtotal">Subtotal: $0</p>
@@ -56,11 +56,12 @@
                 <td>House blended coffee infused into a smooth, steamed milk. <br>
                 </td>
                 <td>
-                    <input name="cafechoice" type="radio" checked="checked" value="2" onchange="calculateCafeSubtotal(); calculateTotal();">Single: $2.00</input><br/>
-                    <input name="cafechoice" type="radio" value="3" onchange="calculateCafeSubtotal(); calculateTotal();">Double: $3.00</input>
+                    <input name="cafechoice" type="radio" checked="checked" value="2" onchange="calculateCafeSubtotal(); calculateTotal();">Single: $<p id="cafeSinglePrice">0.00</p></input><br/>
+                    <input name="cafechoice" type="radio" value="3" onchange="calculateCafeSubtotal(); calculateTotal();">Double: $<p
+                    id="cafeDoublePrice">0.00</p></input>
                 </td>
                 <td>
-                    <input type="number" placeholder="Quantity" id="cafeQuantity" onchange="calculateCafeSubtotal(); calculateTotal();"></input>
+                    <input type="number" min="0" placeholder="Quantity" id="cafeQuantity" onchange="calculateCafeSubtotal(); calculateTotal();"></input>
                 </td>
                 <td>
                     <p id="cafeSubtotal">Subtotal: $0</p>
@@ -71,11 +72,12 @@
                 <td>Sweetened espresso blended with icy-cold milk and served in a chilled glass. <br>
                 </td>
                 <td>
-                    <input name="cappchoice" type="radio" value="4.75" checked="checked" onchange="calculateCappSubtotal(); calculateTotal();">Single: $4.75</input><br/>
-                    <input name="cappchoice" type="radio" value="5.75" onchange="calculateCappSubtotal(); calculateTotal();">Double: $5.75</input>
+                    <input name="cappchoice" type="radio" value="4.75" checked="checked" onchange="calculateCappSubtotal(); calculateTotal();">Single: $<p
+                    id="cappSinglePrice">0.00</p></input><br/>
+                    <input name="cappchoice" type="radio" value="5.75" onchange="calculateCappSubtotal(); calculateTotal();">Double: $<p id="cappDoublePrice">0.00</p></input>
                 </td>
                 <td>
-                    <input type="number" placeholder="Quantity" id="cappQuantity" onchange="calculateCappSubtotal(); calculateTotal();"></input>
+                    <input type="number" min="0" placeholder="Quantity" id="cappQuantity" onchange="calculateCappSubtotal(); calculateTotal();"></input>
                 </td>
                 <td>
                     <p id="cappSubtotal">Subtotal: $0</p>
@@ -94,7 +96,31 @@
         <br>
         <small><a href="mailto:garry@shi.com">garry@shi.com</a></small>
     </footer>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script>
+        async function getPrices() {
+            try {
+                const onOpenResult = await $.ajax({
+                    url: "menuGetPrice.php",
+                    type: "GET",
+                    dataType: "json"
+                });
+                console.log(onOpenResult);
+                if (onOpenResult.status === 'success') {
+                    console.log("get Prices executed")
+                    console.log(onOpenResult.prices);
+                    document.getElementById("javaPrice").innerHTML = onOpenResult.prices[0].price;
+                    document.getElementById("cafeSinglePrice").innerHTML = onOpenResult.prices[1].price;
+                    document.getElementById("cafeDoublePrice").innerHTML = onOpenResult.prices[2].price;
+                    document.getElementById("cappSinglePrice").innerHTML = onOpenResult.prices[3].price;
+                    document.getElementById("cappDoublePrice").innerHTML = onOpenResult.prices[4].price;
+                    console.log(document.getElementById("cafeSinglePrice").innerHTML);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+
+        }
         function calculateTotal(){
             javaSubtotal = parseFloat(calculateJavaSubtotal().toFixed(2));
             cafeSubtotal = parseFloat(calculateCafeSubtotal().toFixed(2));
@@ -108,12 +134,12 @@
             return newSubtotal;
         }
         function calculateCafeSubtotal(){
-            newSubtotal = (document.querySelector('input[name="cafechoice"]:checked').value)*(document.getElementById('cafeQuantity').value);
+            newSubtotal = (document.querySelector('input[name="cafechoice"]:checked').value == 2 ? parseFloat(document.getElementById('cafeSinglePrice').innerHTML).toFixed(2) : parseFloat(document.getElementById('cafeDoublePrice').innerHTML).toFixed(2) )*(document.getElementById('cafeQuantity').value);
             document.getElementById('cafeSubtotal').innerHTML = "Subtotal: $" + newSubtotal;
             return newSubtotal;
         }
         function calculateCappSubtotal(){
-            newSubtotal = (document.querySelector('input[name="cappchoice"]:checked').value)*(document.getElementById('cappQuantity').value);
+            newSubtotal = (document.querySelector('input[name="cappchoice"]:checked').value == 4.75 ? parseFloat(document.getElementById('cappSinglePrice').innerHTML).toFixed(2) : parseFloat(document.getElementById('cappDoublePrice').innerHTML).toFixed(2))*(document.getElementById('cappQuantity').value);
             document.getElementById('cappSubtotal').innerHTML = "Subtotal: $" + newSubtotal;
             return newSubtotal;
         }
