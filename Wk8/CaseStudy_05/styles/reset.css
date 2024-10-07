@@ -9,6 +9,9 @@ h1 {
 h2 {
     font-family: arial;
 }
+h3 {
+    margin-left: 1vw;
+}
 
 p, a {
     font-family: Verdana;

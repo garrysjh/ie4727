@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>JavaJam Coffee House</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/menu.css">
+</head>
+
+<body onload="getBestSeller();">
+    <header>
+        <div class="logo">
+            <h1>JavaJam Coffee House</h1>
+        </div>
+    </header>
+    <nav>
+        <div class="navbar-item">
+            <a href="index.html">Home</a> &nbsp;
+        </div>
+        <div class="navbar-item">
+            <a href="menu.html">Menu</a>&nbsp;
+        </div>
+        <div class="navbar-item">
+            <a href="music.html">Music</a>&nbsp;
+        </div>
+        <div class="navbar-item">
+            <a href="jobs.html">Jobs</a>&nbsp;
+        </div>
+        <div class="navbar-item">
+            <a href="menuupdate.html">Menu Update</a>&nbsp;
+        </div>
+    </nav>
+    <div class="main-body">
+        <div class="main-title">
+            <h2>Click here to generate sales report</h2>
+        </div>
+    <div class="table">
+    <h3><a href="salesproduct.html">Product</a></h3> <br><br>
+    <h3><a href="salescategory.html">Category</a></h3>
+</div>
+    </div>
+    </div>
+    <footer>
+        <small><i>Copyright &copy; 2014 JavaJam Coffeee House</i></small>
+        <br>
+        <small><a href="mailto:garry@shi.com">garry@shi.com</a></small>
+    </footer>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>
+        async function getBestSeller(){
+            try{
+            const bestsellerResult = await $.ajax({
+                url: "reportGetBestseller.php",
+                type: "GET",
+                success: function(data){
+                    alert(data);
+                }
+            });}
+            catch(error){
+                console.log(error.responseText);
+            }
+        }
+    </script>
+</body>
+
+</html>
