@@ -45,7 +45,7 @@
                     <input name="javachoice" type="radio" value="2" checked="checked">Endless: $<p id="javaPrice">0.00</p></input>
                 </td>
                 <td>
-                    <input type="number" min="0" placeholder="Quantity" id="javaQuantity" onchange="calculateJavaSubtotal(); calculateTotal();"></input>
+                    <input type="number" value="0" min="0" placeholder="Quantity" id="javaQuantity" onchange="calculateJavaSubtotal(); calculateTotal();"></input>
                 </td>
                 <td>
                     <p id="javaSubtotal">Subtotal: $0</p>
@@ -61,7 +61,7 @@
                     id="cafeDoublePrice">0.00</p></input>
                 </td>
                 <td>
-                    <input type="number" min="0" placeholder="Quantity" id="cafeQuantity" onchange="calculateCafeSubtotal(); calculateTotal();"></input>
+                    <input type="number"  value="0" min="0" placeholder="Quantity" id="cafeQuantity" onchange="calculateCafeSubtotal(); calculateTotal();"></input>
                 </td>
                 <td>
                     <p id="cafeSubtotal">Subtotal: $0</p>
@@ -77,7 +77,7 @@
                     <input name="cappchoice" type="radio" value="5.75" onchange="calculateCappSubtotal(); calculateTotal();">Double: $<p id="cappDoublePrice">0.00</p></input>
                 </td>
                 <td>
-                    <input type="number" min="0" placeholder="Quantity" id="cappQuantity" onchange="calculateCappSubtotal(); calculateTotal();"></input>
+                    <input type="number" value="0" min="0" placeholder="Quantity" id="cappQuantity" onchange="calculateCappSubtotal(); calculateTotal();"></input>
                 </td>
                 <td>
                     <p id="cappSubtotal">Subtotal: $0</p>
@@ -89,7 +89,7 @@
     <h3 id="total" style="margin-left: 10vw;">
         Total: $0.00
     </h3>
-    <button>Checkout</button>
+    <button onclick="checkout();">Checkout</button>
     </div>
     <footer>
         <small><i>Copyright &copy; 2014 JavaJam Coffeee House</i></small>
@@ -98,6 +98,29 @@
     </footer>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script>
+        async function checkout() {
+            javaQuantity = document.getElementById('javaQuantity').value;
+            javaSubtotal = calculateJavaSubtotal()
+            cafeDrinkId = document.querySelector('input[name="cafechoice"]:checked').value == 2 ? 2 : 3;
+            cafeQuantity = document.getElementById('cafeQuantity').value;
+            cafeSubtotal = calculateCafeSubtotal()
+            cappDrinkId = document.querySelector('input[name="cappchoice"]:checked').value == 4.75 ? 4 : 5;
+            cappQuantity = document.getElementById('cappQuantity').value;
+            cappSubtotal = calculateCappSubtotal()
+            totalPrice = javaSubtotal+cafeSubtotal+cappSubtotal;
+            console.log(javaQuantity, javaSubtotal, cafeDrinkId, cafeQuantity, cafeSubtotal, cappDrinkId, cappQuantity, cappSubtotal, totalPrice);
+            try {
+                const checkoutResult = await $.ajax({
+                    url: "menuCheckout.php",
+                    type: "POST",
+                    dataType: "json",
+                    data: {javaQuantity: javaQuantity, javaSubtotal: javaSubtotal, cafeDrinkId: cafeDrinkId, cafeQuantity: cafeQuantity, cafeSubtotal: cafeSubtotal, cappDrinkId: cappDrinkId, cappQuantity: cappQuantity, cappSubtotal: cappSubtotal, totalPrice: totalPrice}
+                });
+            }
+            catch(error){
+                console.log(error);
+            }
+        }
         async function getPrices() {
             try {
                 const onOpenResult = await $.ajax({
