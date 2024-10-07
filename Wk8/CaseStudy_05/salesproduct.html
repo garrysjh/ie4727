@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>JavaJam Coffee House</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/report.css">
+</head>
+
+<body onload="getSalesByProduct();">
+    <header>
+        <div class="logo">
+            <h1>JavaJam Coffee House</h1>
+        </div>
+    </header>
+    <nav>
+        <div class="navbar-item">
+            <a href="index.html">Home</a> &nbsp;
+        </div>
+        <div class="navbar-item">
+            <a href="menu.html">Menu</a>&nbsp;
+        </div>
+        <div class="navbar-item">
+            <a href="music.html">Music</a>&nbsp;
+        </div>
+        <div class="navbar-item">
+            <a href="jobs.html">Jobs</a>&nbsp;
+        </div>
+        <div class="navbar-item">
+            <a href="menuupdate.html">Menu Update</a>&nbsp;
+        </div>
+        <div class="navbar-item"></div>
+        <a href="report.html">Sales Report</a>&nbsp;
+    </div>
+    </nav>
+    <div class="main-body">
+        <div class="main-title">
+            <h2>Report by Product</h2>
+        </div>
+        <div class="menu">
+        <table>
+            <tr>
+                <td class="menu-item"><strong>Just Java</strong></td>
+                <td>
+                    Total Sales Quantity:<p id="javaQuantity">0</p>
+                </td>
+                <td>
+                    Total Sales Dollars: $<p id="javaSubtotal">0</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="menu-item"><strong>Cafe Au Lait</strong> <br>Single</td>
+                <td>
+                    Total Sales Quantity:<p id="cafeSingleQuantity">0</p>
+                </td>
+                <td>
+                    Total Sales Dollars: $<p id="cafeSingleSubtotal">0</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="menu-item"><strong>Cafe Au Lait</strong> <br>Double</td>
+                <td>
+                    Total Sales Quantity:<p id="cafeDoubleQuantity">0</p>
+                </td>
+                <td>
+                    Total Sales Dollars: $<p id="cafeDoubleSubtotal">0</p>
+                </td>
+            </tr>            <tr>
+                <td class="menu-item"><strong>Iced Cappucino</strong><br>Single</td>
+                <td>
+                    Total Sales Quantity:<p id="cappSingleQuantity">0</p>
+                </td>
+                <td>
+                    Total Sales Dollars: $<p id="cappSingleSubtotal">0</p>
+                </td>
+            </tr>            <tr>
+                <td class="menu-item"><strong>Iced Cappucino</strong><br>Double</td>
+                <td>
+                    Total Sales Quantity:<p id="cappDoubleQuantity">0</p>
+                </td>
+                <td>
+                    Total Sales Dollars: $<p id="cappDoubleSubtotal">0</p>
+                </td>
+            </tr>
+        </table>
+        <br>
+    </div>
+    <h3 id="total" style="margin-left: 10vw;">
+        Total: $0.00
+    </h3>
+    </div>
+    <footer>
+        <small><i>Copyright &copy; 2014 JavaJam Coffeee House</i></small>
+        <br>
+        <small><a href="mailto:garry@shi.com">garry@shi.com</a></small>
+    </footer>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>
+        async function getSalesByProduct() {
+            console.log("onloaded")
+            try {
+                const onOpenResult = await $.ajax({
+                    url: "reportGetSalesByProduct.php",
+                    type: "GET",
+                    dataType: "json"
+                });
+                console.log(onOpenResult);
+                if (onOpenResult.status === 'success') {
+                    console.log("why this guy running")
+                    document.getElementById("javaQuantity").innerHTML = onOpenResult.javaQuantity;
+                    document.getElementById("cafeSingleQuantity").innerHTML = onOpenResult.cafeSingleQuantity;
+                    document.getElementById("cafeDoubleQuantity").innerHTML = onOpenResult.cafeDoubleQuantity;
+                    document.getElementById("cappSingleQuantity").innerHTML = onOpenResult.cappSingleQuantity;
+                    document.getElementById("cappDoubleQuantity").innerHTML = onOpenResult.cappDoubleQuantity;
+                    
+                    document.getElementById("javaSubtotal").innerHTML = onOpenResult.javaSubtotal;
+                    document.getElementById("cafeSingleSubtotal").innerHTML = onOpenResult.cafeSingleSubtotal;
+                    document.getElementById("cafeDoubleSubtotal").innerHTML = onOpenResult.cafeDoubleSubtotal;
+                    document.getElementById("cappSingleSubtotal").innerHTML = onOpenResult.cappSingleSubtotal;
+                    document.getElementById("cappDoubleSubtotal").innerHTML = onOpenResult.cappDoubleSubtotal;
+                    
+                    document.getElementById("total").innerHTML = "Total: $" + onOpenResult.total;
+                }
+            } catch (error) {
+                console.log(error.responseText)
+            }
+
+        }
+
+    </script>
+</body>
+
+</html>

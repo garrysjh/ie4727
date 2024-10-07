@@ -2,10 +2,12 @@ table {
     font-family:system-ui;
     font-size: 1.17em;
     margin: 0 5vw 0;
+    width: 100%;
   }
 
 tr:nth-child(odd){background-color: #D0B38D;}
 tr:nth-child(even){background-color: #F5F4DD;}
+
 td {
     padding: 0.5vh 0.5vw 0.5vh;
 }

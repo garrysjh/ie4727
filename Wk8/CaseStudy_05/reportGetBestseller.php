@@ -19,18 +19,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
   $cappSingleQuantity = $conn->query("SELECT SUM(cappQuantity) FROM Orders WHERE cappDrinkId = 4");
   $cappDoubleQuantity = $conn->query("SELECT SUM(cappQuantity) FROM Orders WHERE cappDrinkId = 5");
   $quantities = array(
-    "Just Java" => $javaQuantity->fetch_assoc(),
-    "Cafe au Lait Single" => $cafeSingleQuantity->fetch_assoc(),
-    "Cafe au Lait Double" => $cafeDoubleQuantity->fetch_assoc(),
-    "Cappuccino Single" => $cappSingleQuantity->fetch_assoc(),
-    "Cappuccino Double" => $cappDoubleQuantity->fetch_assoc(),
+    "Just Java" => $javaQuantity->fetch_assoc()['SUM(javaQuantity)'],
+    "Cafe au Lait Single" => $cafeSingleQuantity->fetch_assoc()['SUM(cafeQuantity)'],
+    "Cafe au Lait Double" => $cafeDoubleQuantity->fetch_assoc()['SUM(cafeQuantity)'],
+    "Iced Cappuccino Single" => $cappSingleQuantity->fetch_assoc()['SUM(cappQuantity)'],
+    "Iced Cappuccino Double" => $cappDoubleQuantity->fetch_assoc()['SUM(cappQuantity)'],
   );
 
 $maxItem = array_keys($quantities, max($quantities))[0];
 $maxQuantity = max($quantities);
 
-echo '<pre>'; print_r($quantities); echo '</pre>';
-echo json_encode(['status' => 'success', 'message' => "$maxItem quantity: $maxQuantity , $quantities"]);
+// echo '<pre>'; print_r($quantities); echo '</pre>';
+echo json_encode(['status' => 'success', 'maxItem' => $maxItem, 'maxQuantity' => $maxQuantity]);
 } else {
 echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
 }
