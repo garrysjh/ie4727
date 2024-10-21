@@ -32,6 +32,7 @@ const MenuTable = () => {
     ]);
 
     useEffect(() => {
+        fetch('http://localhost:8000/gshi005/Documents/ie4727/Wk8/CaseStudy_05/menuGetPrice.php')
         fetch(config['php_file_location'] + 'menuGetPrice.php')
             .then(response => {
                 if (!response.ok) {
@@ -44,7 +45,35 @@ const MenuTable = () => {
                     throw new Error('Data is undefined');
                 }
                 console.log('Fetched data:', data); // Log the fetched data
-                setMenuItems(data);
+                const newPrices = [
+                    {
+                        name: 'Just Java',
+                        description: 'Regular House blend, decaffeinated coffee, or flavor of the day. Endless Cup.',
+                        price: Number(data.prices[0]['price']),
+                        quantity: menuItems[1]['quantity'],
+                        subtotal: menuItems[0]['subtotal'],
+                        selectedPriceOption: Number(data.prices[0]['price'])
+                    },
+                    {
+                        name: 'Cafe au Lait',
+                        description: 'House blended coffee infused into a smooth, steamed milk.',
+                        priceOptions: [Number(data.prices[1]['price']), Number(data.prices[2]['price'])],
+                        price: 2.00,
+                        quantity: menuItems[1]['quantity'],
+                        subtotal: menuItems[1]['subtotal'],
+                        selectedPriceOption: menuItems[1]['selectedPriceOption']
+                    },
+                    {
+                        name: 'Iced Cappucino',
+                        description: 'Sweetened espresso blended with icy-cold milk and served in a chilled glass.',
+                        priceOptions: [Number(data.prices[3]['price']), Number(data.prices[4]['price'])],
+                        price: 4.75,
+                        quantity: menuItems[2]['quantity'],
+                        subtotal: menuItems[2]['subtotal'],
+                        selectedPriceOption: menuItems[2]['selectedPriceOption']
+                    }
+                ]
+                setMenuItems(newPrices)
             })
             .catch(error => console.error('Error fetching menu items:', error));
     }, []);
@@ -53,14 +82,15 @@ const MenuTable = () => {
         const updatedMenuItems = [...menuItems];
         updatedMenuItems[index].quantity = quantity;
         updatedMenuItems[index].subtotal = quantity * updatedMenuItems[index].selectedPriceOption;
-        setMenuItems(updatedMenuItems);
+        setMenuItems([...updatedMenuItems]);
+        console.log(menuItems)
     };
 
     const updatePriceOption = (index, priceOption) => {
         const updatedMenuItems = [...menuItems];
         updatedMenuItems[index].selectedPriceOption = priceOption;
         updatedMenuItems[index].subtotal = updatedMenuItems[index].quantity * priceOption;
-        setMenuItems(updatedMenuItems);
+        setMenuItems([...updatedMenuItems]);
     };
 
     const calculateTotalPrice = () => {
@@ -70,6 +100,20 @@ const MenuTable = () => {
         });
         return totalPrice;
     };
+
+    const checkout = () => {
+        const checkoutItems = {
+            javaQuantity: menuItems[0]['quantity'],
+            javaSubtotal: menuItems[0]['subtotal'],
+            cafeDrinkId: menuItems[1]['priceOptions'].indexOf(menuItems[1]['selectedPriceOption']) == 0 ? 1 : 2,
+            cafeQuantity: menuItems[1]['quantity'],
+            cafeSubtotal: menuItems[1]['subtotal'],
+            cappDrinkId: menuItems[2]['priceOptions'].indexOf(menuItems[2]['selectedPriceOption']) == 0 ? 3 : 4,
+            cappQuantity: menuItems[2]['quantity'],
+            cappSubtotal: menuItems[2]['subtotal']
+        }
+        console.log(checkoutItems)
+    }
 
     return (
         <div>
@@ -125,7 +169,7 @@ const MenuTable = () => {
                     ))}
                 </tbody>
                 <h2>Total Price: ${calculateTotalPrice().toFixed(2)}</h2>
-            <button onClick={checkout()}> Checkout </button>
+            <button onClick={checkout}> Checkout </button>
             </table>
             
         </div>
