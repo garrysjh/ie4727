@@ -43,7 +43,6 @@ const MenuTable = () => {
                 if (!data) {
                     throw new Error('Data is undefined');
                 }
-                console.log('Fetched data:', data); // Log the fetched data
                 const newPrices = [
                     {
                         name: 'Just Java',
@@ -60,7 +59,7 @@ const MenuTable = () => {
                         price: 2.00,
                         quantity: menuItems[1]['quantity'],
                         subtotal: menuItems[1]['subtotal'],
-                        selectedPriceOption: menuItems[1]['selectedPriceOption']
+                        selectedPriceOption: Number(data.prices[1]['price'])
                     },
                     {
                         name: 'Iced Cappucino',
@@ -69,7 +68,7 @@ const MenuTable = () => {
                         price: 4.75,
                         quantity: menuItems[2]['quantity'],
                         subtotal: menuItems[2]['subtotal'],
-                        selectedPriceOption: menuItems[2]['selectedPriceOption']
+                        selectedPriceOption: Number(data.prices[3]['price'])
                     }
                 ]
                 setMenuItems(newPrices)
@@ -112,7 +111,6 @@ const MenuTable = () => {
             'cappSubtotal': menuItems[2]['subtotal'],
             'totalPrice': menuItems.reduce((total, item) => total + item.subtotal, 0)
         };
-        console.log('Checkout items:', checkoutItems);
     
         const formBody = Object.keys(checkoutItems)
             .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(checkoutItems[key]))
@@ -130,7 +128,6 @@ const MenuTable = () => {
                 throw new Error('Network response was not ok ' + response.statusText);
             }
             const responseText = await response.text(); // Get the raw response text
-            console.log('Raw response:', responseText);
 
         }
     
@@ -158,6 +155,7 @@ const MenuTable = () => {
                                             <div key={priceIndex}>
                                                 <input
                                                     type="radio"
+
                                                     name={`price-${index}`}
                                                     value={priceOption}
                                                     checked={menuItem.selectedPriceOption === priceOption}
@@ -179,6 +177,7 @@ const MenuTable = () => {
                             <td>
                                 <input
                                     type="number"
+                                    min="0"
                                     value={menuItem.quantity}
                                     onChange={(e) => updateQuantity(index, parseInt(e.target.value))}
                                 />
