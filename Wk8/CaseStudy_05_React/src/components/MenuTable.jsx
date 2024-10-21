@@ -101,9 +101,16 @@ const MenuTable = () => {
 
     const checkout = () => {
         const checkoutItems = {
-
+            javaQuantity: menuItems[0]['quantity'],
+            javaSubtotal: menuItems[0]['subtotal'],
+            cafeDrinkId: menuItems[1]['priceOptions'].indexOf(menuItems[1]['selectedPriceOption']) == 0 ? 1 : 2,
+            cafeQuantity: menuItems[1]['quantity'],
+            cafeSubtotal: menuItems[1]['subtotal'],
+            cappDrinkId: menuItems[2]['priceOptions'].indexOf(menuItems[2]['selectedPriceOption']) == 0 ? 3 : 4,
+            cappQuantity: menuItems[2]['quantity'],
+            cappSubtotal: menuItems[2]['subtotal']
         }
-        console.log("test")
+        console.log(checkoutItems)
     }
 
     return (
