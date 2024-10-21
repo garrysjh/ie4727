@@ -32,7 +32,6 @@ const MenuTable = () => {
     ]);
 
     useEffect(() => {
-        fetch('http://localhost:8000/gshi005/Documents/ie4727/Wk8/CaseStudy_05/menuGetPrice.php')
         fetch(config['php_file_location'] + 'menuGetPrice.php')
             .then(response => {
                 if (!response.ok) {
@@ -101,20 +100,40 @@ const MenuTable = () => {
         return totalPrice;
     };
 
-    const checkout = () => {
+        const checkout = async () => {
         const checkoutItems = {
-            javaQuantity: menuItems[0]['quantity'],
-            javaSubtotal: menuItems[0]['subtotal'],
-            cafeDrinkId: menuItems[1]['priceOptions'].indexOf(menuItems[1]['selectedPriceOption']) == 0 ? 1 : 2,
-            cafeQuantity: menuItems[1]['quantity'],
-            cafeSubtotal: menuItems[1]['subtotal'],
-            cappDrinkId: menuItems[2]['priceOptions'].indexOf(menuItems[2]['selectedPriceOption']) == 0 ? 3 : 4,
-            cappQuantity: menuItems[2]['quantity'],
-            cappSubtotal: menuItems[2]['subtotal']
-        }
-        console.log(checkoutItems)
-    }
+            'javaQuantity': menuItems[0]['quantity'],
+            'javaSubtotal': menuItems[0]['subtotal'],
+            'cafeDrinkId': menuItems[1]['priceOptions'].indexOf(menuItems[1]['selectedPriceOption']) === 0 ? 1 : 2,
+            'cafeQuantity': menuItems[1]['quantity'],
+            'cafeSubtotal': menuItems[1]['subtotal'],
+            'cappDrinkId': menuItems[2]['priceOptions'].indexOf(menuItems[2]['selectedPriceOption']) === 0 ? 3 : 4,
+            'cappQuantity': menuItems[2]['quantity'],
+            'cappSubtotal': menuItems[2]['subtotal'],
+            'totalPrice': menuItems.reduce((total, item) => total + item.subtotal, 0)
+        };
+        console.log('Checkout items:', checkoutItems);
+    
+        const formBody = Object.keys(checkoutItems)
+            .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(checkoutItems[key]))
+            .join('&');
+    
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: formBody
+        };
 
+            const response = await fetch(config['php_file_location'] + 'menuCheckout.php', requestOptions);
+            alert('Checkout successful!'); // Alert the user that the checkout was successful
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            const responseText = await response.text(); // Get the raw response text
+            console.log('Raw response:', responseText);
+
+        }
+    
     return (
         <div>
             <table>
@@ -171,7 +190,6 @@ const MenuTable = () => {
                 <h2>Total Price: ${calculateTotalPrice().toFixed(2)}</h2>
             <button onClick={checkout}> Checkout </button>
             </table>
-            
         </div>
     );
 };
