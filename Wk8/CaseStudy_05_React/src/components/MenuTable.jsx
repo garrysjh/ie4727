@@ -145,6 +145,7 @@ const MenuTable = () => {
                 </tbody>
             </table>
             <h2>Total Price: ${calculateTotalPrice().toFixed(2)}</h2>
+            <button> Submit </button>
         </div>
     );
 };
