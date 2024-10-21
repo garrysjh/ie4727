@@ -86,6 +86,16 @@ const MenuTable = () => {
         return totalPrice;
     };
 
+    const checkout = () => {
+        const checkOutItems = {
+            'javaQuantity': menuItems[0]['quantity'],
+            'javaSubtotal': menuItems[0]['subtotal'],
+            'cafeDrinkId': 2,
+            'cafeQuantity': menuItems[1]['quantity'] ? 
+            'javaSubtotal':
+        }
+    }
+
     return (
         <div>
             <table>
@@ -144,7 +154,7 @@ const MenuTable = () => {
                     ))}
                 </tbody>
                 <h2>Total Price: ${calculateTotalPrice().toFixed(2)}</h2>
-            <button> Checkout </button>
+            <button onClick={checkout()}> Checkout </button>
             </table>
             
         </div>
