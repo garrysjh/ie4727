@@ -1,111 +1,86 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import config from '../config.js'
 
 const MenuEditTable = () => {
     const [chosenItem, setChosenItem] = useState(0);
     const [cafeChoice, setCafeChoice] = useState('single');
     const [cappChoice, setCappChoice] = useState('single');
+    const [newPrice, setNewPrice] = useState(null);
 
     const handleCafeChoiceChange = (event) => {
         setCafeChoice(event.target.value);
-        console.log(event.target.value);
+    };
+
+    const handleCappChoiceChange = (event) => {
+        setCappChoice(event.target.value);
+        }
+
+    
+
+    const updateJava = async () => {
+        setChosenItem(1)
+        const price = prompt("Set new price for Java: ");
+        if (price == null || price.trim() === "") {
+            alert("Price not updated");
+            return;
+        }
+        setNewPrice(price);
+    };
+
+    const updateCafe = async () => {
         if (cafeChoice === 'single') {
             setChosenItem(2);
         } else if (cafeChoice === 'double') {
             setChosenItem(3);
         }
-        console.log(chosenItem)
+
+        const price = prompt("Set new price for Cafe: ");
+        if (price == null || price.trim() === "") {
+            alert("Price not updated");
+            return;
+        }
+        setNewPrice(price);
     };
 
-    const handleCappChoiceChange = (event) => {
-        setCappChoice(event.target.value);
+    useEffect(() => {
+        if (chosenItem !== null && newPrice !== null) {
+            const updatePrice = async () => {
+                let data = {
+                    id: chosenItem,
+                    price: newPrice
+                };
+                console.log(data);
+                const formBody = Object.keys(data)
+                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+                    .join('&');
+                const requestOptions = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formBody
+                };
+                const response = await fetch(config['php_file_location'] + 'menuUpdate.php', requestOptions);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                alert('Price Updated'); // Alert the user that the price was updated successfully
+            };
+            updatePrice();
+        }
+    }, [chosenItem, newPrice]);
+
+    const updateCapp = async () => {
         if (cappChoice === 'single') {
             setChosenItem(4);
         } else if (cappChoice === 'double') {
             setChosenItem(5);
         }
 
-    };
-
-    const updateJava = async () => {
-        setChosenItem(1);
-        let newPrice = prompt("Set new price for Just Java: ");
-        if (newPrice == null || newPrice.trim() == "") {
+        const price = prompt("Set new price for Capp: ");
+        if (price == null || price.trim() === "") {
             alert("Price not updated");
             return;
-        } else {
-            let data = {
-                id: chosenItem,
-                price: newPrice
-            };
-            const formBody = Object.keys(data)
-                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
-                .join('&');
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: formBody
-            };
-            const response = await fetch(config['php_file_location'] + 'menuUpdate.php', requestOptions);
-            alert('Price Updated'); // Alert the user that the checkout was successful
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
         }
-    };
-
-    const updateCafe = async () => {
-        console.log("From UpdateCafe: " + chosenItem);
-        let newPrice = prompt("Set new price for Just Java: ");
-        if (newPrice == null || newPrice.trim() === "") {
-            alert("Price not updated");
-            return;
-        } else {
-            let data = {
-                id: chosenItem,
-                price: newPrice
-            };
-            console.log(data)
-            const formBody = Object.keys(data)
-                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
-                .join('&');
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: formBody
-            };
-            const response = await fetch(config['php_file_location'] + 'menuUpdate.php', requestOptions);
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            alert('Price Updated'); // Alert the user that the price was updated successfully
-        }
-    };
-
-    const updateCapp = async () => {
-        let newPrice = prompt("Set new price for Just Java: ");
-        if (newPrice == null || newPrice.trim() === "") {
-            alert("Price not updated");
-            return;
-        } else {
-            let data = {
-                id: chosenItem,
-                price: newPrice
-            };
-            const formBody = Object.keys(data)
-                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
-                .join('&');
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: formBody
-            };
-            const response = await fetch(config['php_file_location'] + 'menuUpdate.php', requestOptions);
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            alert('Price Updated'); // Alert the user that the price was updated successfully
-        }
+        setNewPrice(price);
     };
 
     return (
