@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import config from '../config.js'
 
 const MenuTable = () => {
     const [menuItems, setMenuItems] = useState([
@@ -31,7 +32,7 @@ const MenuTable = () => {
     ]);
 
     useEffect(() => {
-        fetch('http://localhost/scripts/menuGetPrice.php')
+        fetch(config['php_file_location'] + 'menuGetPrice.php')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok ' + response.statusText);
