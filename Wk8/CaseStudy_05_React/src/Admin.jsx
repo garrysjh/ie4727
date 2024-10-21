@@ -12,6 +12,7 @@ function Admin() {
         <div className="main-title">
             <h2>Admin Management Page</h2>
             <h2><a href="menuedit">Edit Menu</a></h2>
+            <h2><a href="dashboard">Dashboard</a></h2>
         </div>
     </div>
       <Footer/>

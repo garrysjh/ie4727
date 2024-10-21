@@ -5,6 +5,7 @@ import Menu from './Menu.jsx';
 import Music from './Music.jsx';
 import Admin from './Admin.jsx';
 import MenuEdit from './MenuEdit.jsx';
+import Dashboard from './Dashboard.jsx';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
 {
   path: "/menuedit",
   element: MenuEdit(),
+},
+{
+  path: "/dashboard",
+  element: Dashboard(),
 }
 ]);
 
