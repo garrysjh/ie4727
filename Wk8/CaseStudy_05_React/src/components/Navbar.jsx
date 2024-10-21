@@ -19,6 +19,9 @@
                     <div className="navbar-item">
                         <a href="jobs">Jobs</a>&nbsp;
                     </div>
+                    <div className="navbar-item">
+                        <a href="admin">Admin</a>&nbsp;
+                    </div>
                 </nav>
             </>
         );

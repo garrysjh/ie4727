@@ -1,8 +1,10 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App.jsx';
 import Menu from './Menu.jsx';
 import Music from './Music.jsx';
+import Admin from './Admin.jsx';
+import MenuEdit from './MenuEdit.jsx';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -25,6 +27,14 @@ const router = createBrowserRouter([
 {
   path: "/music",
   element: Music(),
+},
+{
+  path: "/admin",
+  element: Admin(),
+},
+{
+  path: "/menuedit",
+  element: MenuEdit(),
 }
 ]);
 
