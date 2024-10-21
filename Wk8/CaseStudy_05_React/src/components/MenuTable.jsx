@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function MenuTable() {
     const [menuItems, setMenuItems] = useState([
@@ -24,12 +24,32 @@ export default function MenuTable() {
             subtotal: 0
         }
     ]);
+    const [prices, setPrices] = useState({})
+    useEffect(()=> {
+        fetch('http://localhost:8000/gshi005/Documents/ie4727/Wk8/CaseStudy_05/menuGetPrice.php', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+              }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("No response, or error")
+            }
+            console.log(response.json())})
+        .then(data => {
+            console.log("Data Retrieved: ")
+            console.log(data)
+            setPrices(data)
+        })
+    }, [])
 
     const updateQuantity = (index, quantity) => {
         const updatedMenuItems = [...menuItems];
         updatedMenuItems[index].quantity = quantity;
         updatedMenuItems[index].subtotal = quantity * updatedMenuItems[index].price;
         setMenuItems(updatedMenuItems);
+        console.log(prices)
     };
 
     const calculateTotalPrice = () => {
