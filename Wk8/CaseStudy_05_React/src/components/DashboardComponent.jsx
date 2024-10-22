@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import config from '../config';
 
-
-
 const DashboardComponent = () => {
     const [bestseller, setBestseller] = useState("Unknown");
     const [bestsellerCount, setBestsellerCount] = useState(0);
+    const [chosenDashboard, setChosenDashboard] = useState('product');
     useEffect(() => {
         const fetchBestseller = async () => {
             try {
@@ -18,8 +17,8 @@ const DashboardComponent = () => {
                     throw new Error('Data is undefined');
                 }
                 console.log(data);
-                setBestseller(data.bestseller);
-                setBestsellerCount(data.bestsellerCount);
+                setBestseller(data.maxItem);
+                setBestsellerCount(data.maxQuantity);
             } catch (error) {
                 console.error('Error fetching bestseller:', error);
             }
@@ -30,7 +29,13 @@ const DashboardComponent = () => {
 
     return (
         <>
-            <p>Compnent </p>
+            <h3>Bestseller: {bestseller}</h3>
+            <h3>Number sold: {bestsellerCount}</h3>
+            <br/>
+            <button onClick={()=>{setChosenDashboard('product')}}> Product </button>/
+            <button onClick={()=>{setChosenDashboard('category')}}> Category </button>
+            <br/>
+            {chosenDashboard === 'product' ? <p>Product</p> : <p>Category</p>}
         </>
     );
 };
